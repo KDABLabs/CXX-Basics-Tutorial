@@ -1,10 +1,29 @@
 #![allow(dead_code)]
 
+#[cxx::bridge]
 mod ffi {
     pub enum Language {
         English,
         German,
         French,
+    }
+
+    unsafe extern "C++" {
+        // #include
+        include!("cxx-basics/include/greeter.h");
+
+        type Greeter;
+
+        fn greet(self: &Greeter, greeting: &Greeting);
+
+        #[rust_name = "make_greeting"]
+        fn makeGreeting() -> UniquePtr<Greeter>;
+    }
+
+    extern "Rust" {
+        type Greeting;
+
+        fn translate(self: &Greeting, language: Language) -> String;
     }
 }
 
@@ -24,6 +43,7 @@ impl Greeting {
             (Greeting::Bye, Language::English) => "Bye!",
             (Greeting::Bye, Language::German) => "Auf Wiedersehen!",
             (Greeting::Bye, Language::French) => "Au revoir!",
+            _ => "🤯",
         }
         .to_string()
     }
