@@ -16,8 +16,8 @@ mod ffi {
 
         fn greet(self: &Greeter, greeting: &Greeting);
 
-        #[rust_name = "make_greeting"]
-        fn makeGreeting() -> UniquePtr<Greeter>;
+        #[rust_name = "make_greeter"]
+        fn makeGreeter() -> UniquePtr<Greeter>;
     }
 
     extern "Rust" {
@@ -50,5 +50,7 @@ impl Greeting {
 }
 
 fn main() {
-    println!("Hello, world!");
+    let greeter = make_greeter();
+    greeter.greet(&Greeting::Hello);
+    greeter.greet(&Greeting::Bye);
 }
