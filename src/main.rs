@@ -9,7 +9,8 @@ mod ffi {
     }
 
     unsafe extern "C++" {
-        // #include
+        // Note: This is similar to `#include` in C++
+        // It is NOT the `include!` macro from Rusts standard library!
         include!("cxx-basics/include/greeter.h");
 
         type Greeter;
